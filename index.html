@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PS4 14.02 Diagnostic</title>
+<style>
+body{background:#101827;color:white;font-family:Arial;padding:24px}
+button{background:#377dff;color:white;border:0;padding:15px;border-radius:8px}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#1d293b;padding:15px}
+</style>
+</head>
+<body>
+<h2>PS4 Firmware Diagnostic</h2>
+<p>Read-only browser test. No kernel patches or exploits.</p>
+<button onclick="run()">Run Diagnostic</button>
+<pre id="result">Waiting for test...</pre>
+<script>
+function run(){
+  var ua=navigator.userAgent;
+  var fw=ua.match(/PlayStation\s*4\/([0-9.]+)/i);
+  var data={
+    firmware_reported:fw?fw[1]:"Unknown",
+    user_agent:ua,
+    platform:navigator.platform,
+    typed_arrays:typeof Uint8Array!=="undefined",
+    bigint:typeof BigInt!=="undefined",
+    webassembly:typeof WebAssembly!=="undefined",
+    fetch:typeof fetch!=="undefined",
+    secure_context:window.isSecureContext===true,
+    kernel_access_tested:false
+  };
+  document.getElementById("result").textContent=
+    JSON.stringify(data,null,2);
+}
+</script>
+</body>
+</html>
